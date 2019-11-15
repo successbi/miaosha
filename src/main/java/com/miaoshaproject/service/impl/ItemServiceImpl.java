@@ -86,6 +86,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public List<ItemModel> listItem() {
         List<ItemDO> itemDOList = itemDOMapper.listItem();
         List<ItemModel> itemModelList = itemDOList.stream().map(itemDO -> {
@@ -97,6 +98,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public ItemModel getItemById(Integer id) {
         ItemDO itemDO = itemDOMapper.selectByPrimaryKey(id);
         if(itemDO==null){
@@ -109,6 +111,24 @@ public class ItemServiceImpl implements ItemService {
         ItemModel itemModel = convertModelFromDataObject(itemDO,itemStockDO);
 
         return itemModel;
+    }
+
+    @Override
+    @Transactional
+    public boolean decreaseStock(Integer itemId, Integer amount) throws BuException {
+        int affectedRow = itemStockDOMapper.decreaseStock(itemId,amount);
+        if(affectedRow>0){
+            //更新成功
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void increaseSales(Integer itemId, Integer amount) throws BuException {
+        itemDOMapper.increaseSales(itemId,amount);
     }
 
     private ItemModel convertModelFromDataObject(ItemDO itemDO,ItemStockDO itemStockDO){

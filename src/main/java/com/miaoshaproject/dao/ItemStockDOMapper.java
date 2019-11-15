@@ -1,6 +1,7 @@
 package com.miaoshaproject.dao;
 
 import com.miaoshaproject.dataobject.ItemStockDO;
+import org.apache.ibatis.annotations.Param;
 
 public interface ItemStockDOMapper {
     /**
@@ -52,4 +53,8 @@ public interface ItemStockDOMapper {
      * @mbg.generated Tue Nov 12 20:02:15 CST 2019
      */
     int updateByPrimaryKey(ItemStockDO record);
+
+    /**减库存操作的SQL
+     */
+    int decreaseStock(@Param("itemId")Integer itemId,@Param("amount")Integer amount);
 }

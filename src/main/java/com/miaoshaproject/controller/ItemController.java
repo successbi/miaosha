@@ -67,7 +67,6 @@ public class ItemController extends BaseController{
     @ResponseBody
     public CommonReturnType listItem(){
         List<ItemModel> itemModelList = itemService.listItem();
-
         List<ItemVO> itemVOList = itemModelList.stream().map(itemModel -> {
             ItemVO itemVO = this.convertItemVoFromModel(itemModel);
             return itemVO;
